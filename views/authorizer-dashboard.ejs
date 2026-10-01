@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Authorizer Command Center — EXAM SENTRY</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('nav', { user }) %>
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="badge badge-ok">DEFAULT DENY ENFORCED</span>
+          <span class="muted" style="font-size:12px; font-family:monospace;">AUTHORIZER CONSOLE</span>
+        </div>
+        <h1 style="margin-top:6px;">Exam Sentry Authorizer Command Center</h1>
+        <div class="muted">System Authority: <%= user.email %></div>
+      </div>
+      <div class="card" style="padding: 12px 18px; border-color: rgba(0, 240, 255, 0.3);">
+        <span class="muted" style="font-size:12px;">SYSTEM INTEGRITY</span>
+        <div style="color:var(--ok); font-weight:800; font-family:monospace; margin-top:4px;">100% OPERATIONAL</div>
+      </div>
+    </div>
+
+    <% if (locals.message) { %>
+      <div class="success-banner">
+        <span>&#10003;</span>
+        <span><%= message %></span>
+      </div>
+    <% } %>
+
+    <% if (locals.error) { %>
+      <div class="error-banner">
+        <span>&times;</span>
+        <span><%= error %></span>
+      </div>
+    <% } %>
+
+    <!-- Metrics Grid -->
+    <div class="grid" style="margin-bottom: 28px;">
+      <div class="card metric">
+        <span class="muted">Pending Whitelist</span>
+        <div class="n"><%= counts.whitelisted %></div>
+        <span class="muted" style="font-size:12px;">Eligible for registration</span>
+      </div>
+      <div class="card metric">
+        <span class="muted">Registered Setters</span>
+        <div class="n" style="color:var(--ok);"><%= counts.registered %></div>
+        <span class="muted" style="font-size:12px;">Active authoring accounts</span>
+      </div>
+      <div class="card metric">
+        <span class="muted">Revoked Accounts</span>
+        <div class="n" style="color:var(--danger);"><%= counts.revoked %></div>
+        <span class="muted" style="font-size:12px;">Access suspended</span>
+      </div>
+      <div class="card metric">
+        <span class="muted">Total Exam Papers</span>
+        <div class="n" style="color:var(--primary);"><%= counts.totalPapers %></div>
+        <span class="muted" style="font-size:12px;"><%= counts.approvedPapers %> approved & locked</span>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs" id="authorizerTabs">
+      <div class="tab <%= currentTab === 'overview' ? 'active' : '' %>" onclick="location.href='/dashboard?tab=overview'">
+        Dashboard Overview
+      </div>
+      <div class="tab <%= currentTab === 'whitelist' ? 'active' : '' %>" onclick="location.href='/dashboard?tab=whitelist'">
+        Whitelist Paper Setter (<%= counts.whitelisted %>)
+      </div>
+      <div class="tab <%= currentTab === 'setters' ? 'active' : '' %>" onclick="location.href='/dashboard?tab=setters'">
+        Registered Paper Setters (<%= counts.registered %>)
+      </div>
+      <div class="tab <%= currentTab === 'revoked' ? 'active' : '' %>" onclick="location.href='/dashboard?tab=revoked'">
+        Revoked Users (<%= counts.revoked %>)
+      </div>
+      <div class="tab <%= currentTab === 'papers' ? 'active' : '' %>" onclick="location.href='/dashboard?tab=papers'">
+        Paper Overview (<%= counts.totalPapers %>)
+      </div>
+      <div class="tab <%= currentTab === 'system' ? 'active' : '' %>" onclick="location.href='/dashboard?tab=system'">
+        System Status
+      </div>
+    </div>
+
+    <!-- TAB 1: OVERVIEW -->
+    <% if (currentTab === 'overview') { %>
+      <div class="row">
+        <div class="card">
+          <h3 style="margin-top:0; color:#fff;">Whitelist New Paper Setter</h3>
+          <p class="muted">Under Exam Sentry's Default-Deny policy, no educator can register or access paper generation until explicitly authorized below.</p>
+          <form method="post" action="/authorizer/whitelist">
+            <div class="field">
+              <label>Paper Setter Institutional Email</label>
+              <input name="email" type="email" required placeholder="prof.sharma@institution.edu">
+            </div>
+            <div class="field">
+              <label>Department / Subject Specialization (Optional)</label>
+              <input name="notes" placeholder="e.g. Mechanical Engineering / Disaster Management">
+            </div>
+            <button class="btn" style="width:100%;">Authorize Email & Add to Whitelist</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-top:0; color:#fff;">Security Policy Summary</h3>
+          <div style="font-size: 13.5px; line-height: 1.8; color: var(--ink-muted);">
+            <div>&#10003; <b>Zero Pre-whitelisted Accounts:</b> Fresh database begins with empty whitelist.</div>
+            <div>&#10003; <b>Closed-Scope Generation:</b> AI restricted to confirmed blueprint topic IDs only.</div>
+            <div>&#10003; <b>Instant Revocation:</b> Terminating access immediately rejects all protected requests.</div>
+            <div>&#10003; <b>Deterministic Marks:</b> Largest Remainder algorithm for syllabus weightage.</div>
+            <div>&#10003; <b>Watermarked Inspection:</b> Dynamic identity watermarking on viewing sheets.</div>
+          </div>
+        </div>
+      </div>
+    <% } %>
+
+    <!-- TAB 2: WHITELIST MANAGEMENT -->
+    <% if (currentTab === 'whitelist') { %>
+      <div class="card" style="margin-bottom: 24px;">
+        <h3 style="margin-top:0; color:#fff;">Authorize Paper Setter</h3>
+        <form method="post" action="/authorizer/whitelist" style="display:flex; gap:12px; align-items:flex-end;">
+          <div class="field" style="flex:2; margin:0;">
+            <label>Educator Email Address</label>
+            <input name="email" type="email" required placeholder="faculty@institution.edu">
+          </div>
+          <div class="field" style="flex:2; margin:0;">
+            <label>Department / Subject Scope</label>
+            <input name="notes" placeholder="e.g. Mechanical Engineering / Civil">
+          </div>
+          <button class="btn" style="height:44px; white-space:nowrap;">Authorize Email</button>
+        </form>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Authorized Email</th>
+              <th>Status</th>
+              <th>Authorized At</th>
+              <th>Authorized By</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (whitelistedEntries.length === 0) { %>
+              <tr>
+                <td colspan="5" style="text-align:center; padding: 36px; color: var(--ink-muted);">
+                  No pending whitelist entries. Default-Deny active. Authorize an email above.
+                </td>
+              </tr>
+            <% } %>
+            <% whitelistedEntries.forEach(w => { %>
+              <tr>
+                <td><b><%= w.email %></b></td>
+                <td><span class="badge badge-ok"><%= w.status %></span></td>
+                <td class="muted"><%= new Date(w.createdAt).toLocaleString() %></td>
+                <td class="muted"><%= w.createdBy %></td>
+                <td>
+                  <form method="post" action="/authorizer/remove-whitelist" style="margin:0;" onsubmit="return confirm('Remove <%= w.email %> from whitelist?');">
+                    <input type="hidden" name="id" value="<%= w.id %>">
+                    <button class="btn danger small">Remove</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+
+    <!-- TAB 3: REGISTERED PAPER SETTERS -->
+    <% if (currentTab === 'setters') { %>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Paper Setter</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Registered Since</th>
+              <th>Created Papers</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (registeredUsers.length === 0) { %>
+              <tr>
+                <td colspan="6" style="text-align:center; padding: 36px; color: var(--ink-muted);">
+                  No registered paper setters yet. Whitelist an email and instruct the teacher to sign up.
+                </td>
+              </tr>
+            <% } %>
+            <% registeredUsers.forEach(u => { %>
+              <tr>
+                <td><b><%= u.name %></b><br><small class="muted"><%= u.id %></small></td>
+                <td><%= u.email %></td>
+                <td><span class="badge badge-ok">REGISTERED ✓</span></td>
+                <td class="muted"><%= new Date(u.createdAt).toLocaleString() %></td>
+                <td><b><%= u.paperCount %></b> papers</td>
+                <td>
+                  <button class="btn danger small" onclick="openRevokeModal('<%= u.id %>', '<%= u.email %>', '<%= u.name %>')">
+                    Revoke Access
+                  </button>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+
+    <!-- TAB 4: REVOKED USERS -->
+    <% if (currentTab === 'revoked') { %>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>User Name</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Revoked At</th>
+              <th>Revoked By</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (revokedUsers.length === 0) { %>
+              <tr>
+                <td colspan="6" style="text-align:center; padding: 36px; color: var(--ink-muted);">
+                  No revoked accounts currently on record.
+                </td>
+              </tr>
+            <% } %>
+            <% revokedUsers.forEach(r => { %>
+              <tr>
+                <td><b><%= r.name %></b></td>
+                <td><%= r.email %></td>
+                <td><span class="badge badge-danger">ACCESS REVOKED</span></td>
+                <td class="muted"><%= r.revokedAt ? new Date(r.revokedAt).toLocaleString() : '-' %></td>
+                <td class="muted"><%= r.revokedBy || 'Authorizer' %></td>
+                <td>
+                  <form method="post" action="/authorizer/restore" style="margin:0;" onsubmit="return confirm('Restore Paper Setter access for <%= r.email %>?');">
+                    <input type="hidden" name="email" value="<%= r.email %>">
+                    <button class="btn small">Restore User</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+
+    <!-- TAB 5: PAPER OVERVIEW -->
+    <% if (currentTab === 'papers') { %>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Paper ID</th>
+              <th>Subject</th>
+              <th>Author</th>
+              <th>Marks</th>
+              <th>Status</th>
+              <th>Compliance</th>
+              <th>Created At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (papers.length === 0) { %>
+              <tr>
+                <td colspan="8" style="text-align:center; padding: 36px; color: var(--ink-muted);">
+                  No papers authored yet.
+                </td>
+              </tr>
+            <% } %>
+            <% papers.forEach(p => { %>
+              <tr>
+                <td><span style="font-family:monospace; color:var(--primary); font-weight:700;"><%= p.id %></span></td>
+                <td><b><%= p.subject || 'Untitled Paper' %></b><br><small class="muted"><%= p.subjectCode || '-' %></small></td>
+                <td class="muted"><%= p.creatorEmail || p.createdBy %></td>
+                <td><%= p.marks || '-' %> M</td>
+                <td><span class="status <%= p.status %>"><%= p.status %></span></td>
+                <td>
+                  <span class="badge <%= (p.complianceScore || 100) >= 90 ? 'badge-ok' : 'badge-warn' %>">
+                    <%= p.complianceScore || 100 %>%
+                  </span>
+                </td>
+                <td class="muted"><%= new Date(p.createdAt).toLocaleDateString() %></td>
+                <td>
+                  <a class="btn secondary small" href="/papers/<%= p.id %>/view">Preview</a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+
+    <!-- TAB 6: SYSTEM STATUS -->
+    <% if (currentTab === 'system') { %>
+      <div class="grid">
+        <div class="card">
+          <span class="badge badge-ok">ACTIVE</span>
+          <h3 style="color:#fff; margin:12px 0 6px;">Default Deny Engine</h3>
+          <p class="muted">All endpoints enforce whitelist check. Non-whitelisted accounts receive 403 Forbidden.</p>
+        </div>
+        <div class="card">
+          <span class="badge <%= locals.geminiAvailable ? 'badge-ok' : 'badge-outline' %>">
+            <%= locals.geminiAvailable ? 'ONLINE' : 'LOCAL ENGINE' %>
+          </span>
+          <h3 style="color:#fff; margin:12px 0 6px;">Gemini Document AI</h3>
+          <p class="muted">
+            <%= locals.geminiAvailable ? 'Connected to Gemini API for online multimodal extraction.' : 'Operating with deterministic offline academic scope extractor.' %>
+          </p>
+        </div>
+        <div class="card">
+          <span class="badge badge-ok">ENCRYPTED</span>
+          <h3 style="color:#fff; margin:12px 0 6px;">AES-256-GCM Storage</h3>
+          <p class="muted">Exam paper content is cryptographically sealed before database persistence.</p>
+        </div>
+        <div class="card">
+          <span class="badge badge-ok">ACTIVE</span>
+          <h3 style="color:#fff; margin:12px 0 6px;">Tamper Monitor</h3>
+          <p class="muted">Webcam presence, blur, and tab-switch detection actively monitoring confidential sessions.</p>
+        </div>
+      </div>
+    <% } %>
+  </div>
+
+  <!-- REVOKE CONFIRMATION MODAL -->
+  <div class="modal-overlay" id="revokeModal">
+    <div class="modal-content">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <span class="badge badge-danger">CONFIRM REVOCATION</span>
+        <button onclick="closeRevokeModal()" style="background:none; border:none; color:var(--ink-muted); font-size:22px; cursor:pointer;">&times;</button>
+      </div>
+      <h2 style="margin: 0 0 10px; color:#fff;">Revoke Paper Setter Access?</h2>
+      <p style="color:var(--ink-muted); line-height:1.6; font-size:14px;">
+        Are you sure you want to revoke access for <b id="modalSetterName" style="color:#fff;"></b> (<span id="modalSetterEmail" style="color:var(--primary);"></span>)?
+      </p>
+      <div style="padding:12px; background:var(--danger-bg); border:1px solid rgba(239,68,68,0.3); border-radius:8px; font-size:13px; color:#fca5a5; margin-bottom:20px;">
+        &#9888; <b>Immediate Impact:</b> Active sessions for this user will be invalidated immediately. Any subsequent API requests will return 403 ACCESS_REVOKED.
+      </div>
+      <form method="post" action="/authorizer/revoke">
+        <input type="hidden" name="userId" id="modalUserId">
+        <input type="hidden" name="email" id="modalEmail">
+        <div style="display:flex; justify-content:flex-end; gap:10px;">
+          <button type="button" class="btn secondary" onclick="closeRevokeModal()">Cancel</button>
+          <button type="submit" class="btn danger">Confirm & Revoke Access</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openRevokeModal(userId, email, name) {
+      document.getElementById('modalUserId').value = userId;
+      document.getElementById('modalEmail').value = email;
+      document.getElementById('modalSetterName').textContent = name;
+      document.getElementById('modalSetterEmail').textContent = email;
+      document.getElementById('revokeModal').classList.add('active');
+    }
+    function closeRevokeModal() {
+      document.getElementById('revokeModal').classList.remove('active');
+    }
+  </script>
+
+  <div class="footer">
+    EXAM SENTRY &bull; Authorizer Command Console &bull; faisaldiddi@gmail.com
+  </div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>EXAM SENTRY — SECURE. MONITOR. TRACE.</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('nav', { user: null }) %>
+  <div class="container">
+    <div style="padding: 70px 0 40px; text-align: center; max-width: 860px; margin: auto;">
+      <span class="badge" style="font-size:12px; margin-bottom:18px;">
+        <span class="brand-dot" style="margin-right:6px;"></span> ZERO-TRUST EXAMINATION ARCHITECTURE
+      </span>
+      <h1 style="font-size: 52px; line-height: 1.1; margin: 16px 0 20px; font-weight: 900; letter-spacing: -1px; color:#fff;">
+        EXAM SENTRY
+      </h1>
+      <div style="font-family:'Courier New', monospace; font-size: 16px; letter-spacing: 5px; color: var(--primary); margin-bottom: 24px; font-weight: 700;">
+        "SECURE. MONITOR. TRACE."
+      </div>
+      <p style="font-size: 18px; line-height: 1.6; color: var(--ink-muted); margin-bottom: 36px;">
+        A high-security, subject-agnostic academic platform featuring Default-Deny Whitelisting,
+        multi-page Blueprint Document AI extraction, strict closed-scope question generation,
+        and real-time tamper-resistant paper authoring.
+      </p>
+      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a class="btn" href="/login" style="padding: 13px 28px; font-size: 15px;">
+          Access System Login
+        </a>
+        <a class="btn secondary" href="/signup" style="padding: 13px 28px; font-size: 15px;">
+          Paper Setter Registration
+        </a>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top: 40px;">
+      <div class="card">
+        <span class="badge badge-ok">DEFAULT DENY</span>
+        <h3 style="margin: 12px 0 8px; color:#fff;">Authorizer Whitelist</h3>
+        <p class="muted">
+          Only the institution Authorizer can grant access. Zero pre-whitelisted paper setters. Instant revocation enforcement across active sessions.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="badge">MULTIMODAL AI</span>
+        <h3 style="margin: 12px 0 8px; color:#fff;">Blueprint Understanding</h3>
+        <p class="muted">
+          Page-by-page extraction of subject, modules, hours, weightage, and individual topics. Strictly subject-agnostic across CBSE, Medical, and Engineering.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-warn">CLOSED SCOPE</span>
+        <h3 style="margin: 12px 0 8px; color:#fff;">Zero Contamination</h3>
+        <p class="muted">
+          Question generation operates exclusively within confirmed topic IDs. 0% alien subject contamination (no inadvertent BDA/Hadoop fallbacks).
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-danger">REAL-TIME TRACE</span>
+        <h3 style="margin: 12px 0 8px; color:#fff;">Dynamic Watermarking</h3>
+        <p class="muted">
+          AES-256-GCM encrypted persistence, camera tamper monitoring, tab-switch freeze, and full immutable audit trails.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    EXAM SENTRY &bull; "SECURE. MONITOR. TRACE." &bull; Production Security Review
+  </div>
+</body>
+</html>

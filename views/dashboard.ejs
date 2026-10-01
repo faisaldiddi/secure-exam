@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Paper Setter Dashboard — EXAM SENTRY</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('nav', { user }) %>
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="badge badge-ok">AUTHORIZED PAPER SETTER</span>
+          <span class="muted" style="font-size:12px; font-family:monospace;"><%= user.id %></span>
+        </div>
+        <h1 style="margin-top:6px;">Paper Setter Workspace</h1>
+        <div class="muted"><%= user.name %> &bull; <%= user.email %></div>
+      </div>
+      <div class="card" style="padding:12px 18px; border-color: rgba(0, 240, 255, 0.3);">
+        <span class="muted" style="font-size:12px;">ACTIVE SESSION RISK</span>
+        <div style="margin-top:4px;">
+          <span class="badge <%= risk.level === 'LOW' ? 'badge-ok' : (risk.level === 'MEDIUM' ? 'badge-warn' : 'badge-danger') %>">
+            <%= risk.score %>/100 &bull; <%= risk.level %> RISK
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 PRIMARY CREATION LAUNCHPAD CARDS -->
+    <div class="section-title" style="margin-top: 15px;">
+      <h2>Author New Examination Paper</h2>
+    </div>
+
+    <div class="grid-3" style="margin-bottom: 35px;">
+      <!-- MODE 1: AI AUTO GENERATE -->
+      <div class="card" style="border-color: rgba(0, 240, 255, 0.4); background: radial-gradient(ellipse at top left, rgba(0, 240, 255, 0.08), transparent 70%), var(--bg-card);">
+        <span class="badge" style="background:rgba(0,240,255,0.15); color:#00f0ff;">RECOMMENDED</span>
+        <h3 style="margin: 14px 0 8px; color:#fff; font-size:20px;">AI Auto Generate</h3>
+        <p class="muted" style="font-size: 13.5px; line-height: 1.6; margin-bottom: 20px;">
+          Upload an official syllabus or exam blueprint (PDF or Image). Our BlueprintParser extracts topics, calculates deterministic weightages, and generates compliant questions inside a closed academic scope.
+        </p>
+        <a class="btn" href="/papers/ai-wizard" style="width: 100%;">
+          Launch AI Blueprint Wizard &rarr;
+        </a>
+      </div>
+
+      <!-- MODE 2: MANUAL CREATE -->
+      <div class="card">
+        <span class="badge badge-outline">FLEXIBLE</span>
+        <h3 style="margin: 14px 0 8px; color:#fff; font-size:20px;">Manual Create</h3>
+        <p class="muted" style="font-size: 13.5px; line-height: 1.6; margin-bottom: 20px;">
+          Author an examination paper from scratch with completely subject-agnostic fields. Configure dynamic sections, variable marks, subquestions, and optional Bloom/CO tags without any hardcoded defaults.
+        </p>
+        <a class="btn secondary" href="/papers/new" style="width: 100%;">
+          Open Manual Builder &rarr;
+        </a>
+      </div>
+
+      <!-- MODE 3: REDEFINE EXISTING PAPER -->
+      <div class="card">
+        <span class="badge badge-warn">TRANSFORMATION</span>
+        <h3 style="margin: 14px 0 8px; color:#fff; font-size:20px;">Redefine Existing Paper</h3>
+        <p class="muted" style="font-size: 13.5px; line-height: 1.6; margin-bottom: 20px;">
+          Upload a legacy question paper (PDF or Image). The engine extracts all questions, separates instructions, and performs a balanced question-by-question cognitive redefine into a fresh paper.
+        </p>
+        <a class="btn secondary" href="/papers/redefine" style="width: 100%;">
+          Open Redefine Engine &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- METRICS -->
+    <div class="grid" style="margin-bottom: 30px;">
+      <div class="card metric">
+        <span class="muted">Total Papers</span>
+        <div class="n"><%= counts.total %></div>
+      </div>
+      <div class="card metric">
+        <span class="muted">Drafts in Progress</span>
+        <div class="n" style="color:var(--warn);"><%= counts.draft %></div>
+      </div>
+      <div class="card metric">
+        <span class="muted">Validated Papers</span>
+        <div class="n" style="color:var(--primary);"><%= counts.pending %></div>
+      </div>
+      <div class="card metric">
+        <span class="muted">Approved & Locked</span>
+        <div class="n" style="color:var(--ok);"><%= counts.approved %></div>
+      </div>
+    </div>
+
+    <!-- PAPERS TABLE -->
+    <div class="section-title">
+      <h2>Recent Papers</h2>
+      <a class="btn secondary small" href="/papers">View All Papers</a>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Paper ID</th>
+            <th>Subject & Code</th>
+            <th>Marks</th>
+            <th>Mode</th>
+            <th>Status</th>
+            <th>Compliance</th>
+            <th>Updated</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (papers.length === 0) { %>
+            <tr>
+              <td colspan="8" style="text-align:center; padding: 40px; color:var(--ink-muted);">
+                You haven't authored any examination papers yet. Click "Launch AI Blueprint Wizard" to create one.
+              </td>
+            </tr>
+          <% } %>
+          <% papers.slice(0, 8).forEach(p => { %>
+            <tr>
+              <td><span style="font-family:monospace; color:var(--primary); font-weight:700;"><%= p.id %></span></td>
+              <td>
+                <b><%= p.subject || p.title || 'Untitled' %></b>
+                <% if (p.subjectCode) { %><br><small class="muted"><%= p.subjectCode %></small><% } %>
+              </td>
+              <td><%= p.marks || '-' %> M</td>
+              <td><span class="badge badge-outline"><%= p.mode || 'MANUAL' %></span></td>
+              <td><span class="status <%= p.status %>"><%= p.status %></span></td>
+              <td>
+                <span class="badge <%= (p.complianceScore || 100) >= 90 ? 'badge-ok' : 'badge-warn' %>">
+                  <%= p.complianceScore || 100 %>%
+                </span>
+              </td>
+              <td class="muted"><%= new Date(p.updatedAt || p.createdAt).toLocaleString() %></td>
+              <td>
+                <div style="display:flex; gap:6px;">
+                  <a class="btn secondary small" href="/papers/<%= p.id %>/view">Preview</a>
+                  <% if (p.status !== 'APPROVED' && p.status !== 'LOCKED') { %>
+                    <a class="btn secondary small" href="/papers/<%= p.id %>/edit">Edit</a>
+                  <% } %>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    EXAM SENTRY &bull; "SECURE. MONITOR. TRACE." &bull; High-Integrity Academic Engine
+  </div>
+</body>
+</html>

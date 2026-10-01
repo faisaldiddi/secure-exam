@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Security Incident Stream — EXAM SENTRY</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('nav', { user }) %>
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="badge badge-danger">REAL-TIME MONITOR</span>
+          <span class="muted" style="font-size:12px; font-family:monospace;">RISK ANOMALY ENGINE</span>
+        </div>
+        <h1 style="margin-top:6px;">Security Incidents &amp; Anomaly Log</h1>
+        <div class="muted">Tamper warnings, session blur incidents, failed authentication, and camera interruptions.</div>
+      </div>
+      <div class="card" style="padding:10px 18px;">
+        <span class="muted" style="font-size:12px;">ACTIVE USER RISK</span>
+        <div style="margin-top:4px;">
+          <span class="badge <%= risk.level === 'LOW' ? 'badge-ok' : (risk.level === 'MEDIUM' ? 'badge-warn' : 'badge-danger') %>">
+            <%= risk.score %>/100 &bull; <%= risk.level %> RISK
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Account</th>
+            <th>Anomaly Type</th>
+            <th>Severity</th>
+            <th>Security Context</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (!events.length) { %>
+            <tr>
+              <td colspan="5" style="text-align:center; padding: 40px; color:var(--ink-muted);">
+                Zero security anomalies or tamper incidents detected in the last 24 hours.
+              </td>
+            </tr>
+          <% } %>
+          <% events.forEach(e => { const u = users.find(x => x.id === e.userId); %>
+            <tr>
+              <td class="muted" style="font-family:monospace; font-size:12.5px;"><%= new Date(e.createdAt).toLocaleString() %></td>
+              <td>
+                <b><%= u?.name || e.userId %></b>
+                <br><small class="muted"><%= u?.email || e.userId %></small>
+              </td>
+              <td>
+                <span class="badge <%= e.severity === 'HIGH' ? 'badge-danger' : 'badge-warn' %>">
+                  <%= e.type %>
+                </span>
+              </td>
+              <td style="font-family:monospace; font-weight:bold; color:<%= e.severity === 'HIGH' ? 'var(--danger)' : 'var(--warn)' %>;">
+                <%= e.severity %>
+              </td>
+              <td class="muted" style="font-family:monospace; font-size:12px; max-width:380px; word-break:break-all;">
+                <%= JSON.stringify(e.meta) %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    EXAM SENTRY &bull; "SECURE. MONITOR. TRACE." &bull; Real-time Anomaly Detection
+  </div>
+</body>
+</html>

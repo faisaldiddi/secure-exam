@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Redefine Existing Paper — EXAM SENTRY</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('nav', { user }) %>
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="badge badge-warn">LEGACY PAPER TRANSFORMATION</span>
+          <span class="muted" style="font-size:12px; font-family:monospace;">REDEFINE ENGINE</span>
+        </div>
+        <h1 style="margin-top:6px;">Redefine Existing Examination Paper</h1>
+        <div class="muted">Extracts multi-page question papers, distinguishes instructions, and regenerates slot-by-slot alternatives.</div>
+      </div>
+      <div>
+        <a class="btn secondary small" href="/dashboard">&larr; Return to Dashboard</a>
+      </div>
+    </div>
+
+    <% if (error) { %>
+      <div class="error-banner">
+        <span>&times;</span>
+        <span><%= error %></span>
+      </div>
+    <% } %>
+
+    <% if (locals.success) { %>
+      <div class="success-banner">
+        <span>&#10003;</span>
+        <span><%= success %></span>
+      </div>
+    <% } %>
+
+    <!-- STEP 1: UPLOAD LEGACY PAPER (REQUIRED FILE) -->
+    <% if (step === 1) { %>
+      <div class="card" style="max-width: 680px; margin: 30px auto; padding: 36px;">
+        <span class="badge" style="margin-bottom: 12px;">FILE REQUIRED</span>
+        <h2 style="margin: 0 0 10px; color:#fff;">Upload Question Paper to Redefine</h2>
+        <p class="muted" style="margin-bottom: 24px; line-height: 1.6;">
+          Select a PDF or image of the existing question paper. The extraction pipeline will process every page, identify question blocks, separate instructions, and extract marks.
+        </p>
+
+        <form method="post" action="/papers/redefine/upload" enctype="multipart/form-data" id="redefineUploadForm">
+          <div class="field">
+            <label>Select Question Paper (PDF or Image) *</label>
+            <input type="file" name="paperFile" id="paperFileInput" accept=".pdf,.png,.jpg,.jpeg,.webp" required
+                   style="padding: 20px; background: #070c18; border: 2px dashed var(--border); border-radius: 12px; cursor: pointer;">
+            <div class="muted" style="font-size:12px; margin-top:6px;">
+              Multi-page PDF supported. The extractor processes every page.
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 24px;">
+            <a class="btn secondary" href="/dashboard">Cancel</a>
+            <button class="btn" id="analyzePaperBtn">
+              Extract Questions from Document &rarr;
+            </button>
+          </div>
+        </form>
+      </div>
+    <% } %>
+
+    <!-- STEP 2: EXTRACTION REVIEW SCREEN -->
+    <% if (step === 2) { %>
+      <div class="card" style="margin-bottom: 24px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 18px;">
+          <div>
+            <span class="badge badge-ok">EXTRACTION COMPLETE</span>
+            <h2 style="margin: 8px 0 4px; color:#fff;">Paper Extraction Review</h2>
+            <div class="muted">
+              Verify extracted questions and instructions before generating redefined paper.
+            </div>
+          </div>
+          <div>
+            <span class="badge" style="font-family:monospace;">
+              <%= extractedData.paperMetadata?.pagesProcessed || 1 %> / <%= extractedData.paperMetadata?.totalPages || 1 %> Pages Processed
+            </span>
+          </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="grid" style="margin-bottom: 24px;">
+          <div class="card" style="background:#091021;">
+            <span class="muted" style="font-size:11px;">SECTIONS DETECTED</span>
+            <div style="font-size:18px; font-weight:800; color:#fff; margin-top:4px;"><%= extractedData.sections?.length || 0 %></div>
+          </div>
+          <div class="card" style="background:#091021;">
+            <span class="muted" style="font-size:11px;">ACTUAL QUESTIONS</span>
+            <div style="font-size:18px; font-weight:800; color:var(--primary); margin-top:4px;">
+              <%= extractedData.sections?.reduce((sum, s) => sum + (s.questions?.length || 0), 0) || 0 %>
+            </div>
+          </div>
+          <div class="card" style="background:#091021;">
+            <span class="muted" style="font-size:11px;">ATTEMPTABLE MARKS</span>
+            <div style="font-size:18px; font-weight:800; color:var(--ok); margin-top:4px;">
+              <%= extractedData.sections?.reduce((sum, s) => sum + (s.attemptableMarks || 0), 0) || 20 %> M
+            </div>
+          </div>
+          <div class="card" style="background:#091021;">
+            <span class="muted" style="font-size:11px;">INSTRUCTIONS DETECTED</span>
+            <div style="font-size:18px; font-weight:800; color:#fff; margin-top:4px;">
+              <%= (extractedData.generalInstructions?.length || 0) + (extractedData.sections?.filter(s => s.instruction)?.length || 0) %>
+            </div>
+          </div>
+        </div>
+
+        <form method="post" action="/papers/redefine/generate">
+          <div class="field">
+            <label>Redefine Transformation Mode</label>
+            <select name="redefineMode" style="max-width:400px;">
+              <option value="BALANCED" selected>Balanced Redefine (Recommended: New equivalent questions for each slot)</option>
+              <option value="LIGHT">Light Redefine (Structural variation, preserves exact conceptual core)</option>
+              <option value="COMPLETE">Complete Regeneration (Higher Bloom level, advanced scenario cases)</option>
+            </select>
+          </div>
+
+          <h3 style="color:#fff; margin: 24px 0 14px;">Extracted Questions Structure</h3>
+
+          <% (extractedData.sections || []).forEach((sec, sIdx) => { %>
+            <div class="card" style="background:#091021; margin-bottom: 16px; border-color:var(--border);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+                <h4 style="margin:0; color:#fff;"><%= sec.title %></h4>
+                <span class="badge badge-outline">Attempt <%= sec.attemptCount %> of <%= sec.availableCount %></span>
+              </div>
+              <div class="muted" style="font-style:italic; font-size:13px; margin-bottom:12px;">
+                Instruction: <%= sec.instruction %>
+              </div>
+
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <% (sec.questions || []).forEach((q, qIdx) => { %>
+                  <div style="display:flex; gap:12px; padding:10px; background:#060a14; border:1px solid rgba(30,47,86,0.6); border-radius:6px; font-size:13.5px;">
+                    <span style="font-weight:bold; color:var(--primary); min-width:24px;"><%= q.questionLabel || (qIdx + 1) %>)</span>
+                    <span style="flex:1; color:#e2e8f0;"><%= q.questionText %></span>
+                    <span style="font-weight:bold; color:var(--ink-muted); min-width:40px; text-align:right;">[<%= q.marks %>M]</span>
+                  </div>
+                <% }) %>
+              </div>
+            </div>
+          <% }) %>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:28px;">
+            <a class="btn secondary" href="/papers/redefine">Upload Different File</a>
+            <button class="btn" style="padding:12px 28px; font-size:15px;">
+              Confirm Extraction &amp; Redefine Questions &rarr;
+            </button>
+          </div>
+        </form>
+      </div>
+    <% } %>
+
+    <!-- STEP 3: REDEFINED RESULT (WHITE A4 SHEET PREVIEW) -->
+    <% if (step === 3) { %>
+      <div class="card" style="border-color: rgba(16,185,129,0.5); background: rgba(16,185,129,0.06); margin-bottom: 24px; padding: 20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span class="badge badge-ok">REDEFINITION COMPLETE</span>
+            <h3 style="margin: 8px 0 2px; color:#fff;">All Question Slots Regenerated</h3>
+            <div class="muted">Genuine alternative questions generated for every slot. Semantic similarity under 85% verified.</div>
+          </div>
+          <form method="post" action="/papers/<%= paper.id %>/approve" style="margin:0;">
+            <button class="btn" style="background:linear-gradient(135deg,#10b981,#059669); border-color:#10b981; color:#fff;">
+              &#10003; Approve &amp; Lock Paper
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h2>Redefined Paper Preview</h2>
+        <a class="btn secondary small" href="/papers/<%= paper.id %>/view" target="_blank">
+          Open in Watermarked Viewer &rarr;
+        </a>
+      </div>
+
+      <!-- WHITE A4 SHEET -->
+      <div class="paper-sheet-container">
+        <div class="a4-sheet">
+          <div class="watermark-overlay">
+            <span>EXAM SENTRY</span>
+            <span><%= paper.id %></span>
+            <span>CONFIDENTIAL</span>
+            <span><%= user.email %></span>
+            <span>REDEFINED</span>
+            <span>EXAM SENTRY</span>
+          </div>
+
+          <div class="a4-header">
+            <h2><%= paper.institution || 'ACADEMIC INSTITUTION' %></h2>
+            <h3>Department of <%= paper.department || 'Examination Division' %></h3>
+            <div style="font-weight:bold; font-size:16px; margin: 8px 0;"><%= paper.subject || 'Examination Paper' %></div>
+            <div class="a4-meta">
+              <span>Time: 2 Hours</span>
+              <span>Semester: VII</span>
+              <span>Max Marks: <%= paper.marks || 20 %></span>
+            </div>
+          </div>
+
+          <div class="a4-instructions">
+            <b>General Instructions:</b><br>
+            1. All questions are compulsory subject to internal options.<br>
+            2. Figures to the right indicate full marks.
+          </div>
+
+          <% (paper.sections || []).forEach((sec) => { %>
+            <div class="a4-section-title">
+              <span><%= sec.title %></span>
+              <span>[<%= sec.attemptableMarks %> Marks]</span>
+            </div>
+            <div style="font-size:13px; font-style:italic; margin-bottom:12px; font-family:Arial, sans-serif;">
+              <%= sec.instruction %>
+            </div>
+
+            <% (sec.questions || []).forEach((q) => { %>
+              <div class="a4-question">
+                <div class="a4-q-num"><%= q.questionLabel %>)</div>
+                <div class="a4-q-text">
+                  <%= q.questionText %>
+                  <div style="font-size:11px; color:#475569; font-family:Arial, sans-serif; margin-top:3px;">
+                    [Redefined Slot &bull; <%= q.bloomLevel || 'BL3 Apply' %>]
+                  </div>
+                </div>
+                <div class="a4-q-meta">[<%= q.marks %>M]</div>
+              </div>
+            <% }) %>
+          <% }) %>
+        </div>
+      </div>
+    <% } %>
+  </div>
+
+  <div class="footer">
+    EXAM SENTRY &bull; Cognitive Question Paper Redefinition Engine
+  </div>
+</body>
+</html>

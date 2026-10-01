@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Manual Paper Creator — EXAM SENTRY</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('nav', { user }) %>
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="badge">SUBJECT-AGNOSTIC BUILDER</span>
+          <span class="muted" style="font-size:12px; font-family:monospace;">MANUAL AUTHORING</span>
+        </div>
+        <h1 style="margin-top:6px;">Manual Examination Paper Authoring</h1>
+        <div class="muted">Works for any academic standard: CBSE, ICSE, Engineering, Medicine, Arts, or School curricula.</div>
+      </div>
+      <div>
+        <a class="btn secondary small" href="/dashboard">&larr; Return to Dashboard</a>
+      </div>
+    </div>
+
+    <% if (error) { %>
+      <div class="error-banner">
+        <span>&times;</span>
+        <span><%= error %></span>
+      </div>
+    <% } %>
+
+    <form method="post" action="/papers/manual" id="manualPaperForm">
+      <!-- HEADER METADATA (SUBJECT AGNOSTIC) -->
+      <div class="card" style="margin-bottom: 24px;">
+        <h3 style="margin-top:0; color:#fff;">1. Examination Metadata</h3>
+        <div class="row">
+          <div class="field">
+            <label>Institution / University Name *</label>
+            <input name="institution" required placeholder="e.g. National Institute of Technology / St. Xavier's High School" value="<%= paper?.institution || '' %>">
+          </div>
+          <div class="field">
+            <label>Department / Faculty (Optional)</label>
+            <input name="department" placeholder="e.g. Science / Mathematics / Mechanical Engineering" value="<%= paper?.department || '' %>">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>Subject Title *</label>
+            <input name="subject" required placeholder="e.g. Mathematics, Disaster Management, Science, Accountancy" value="<%= paper?.subject || '' %>">
+          </div>
+          <div class="field">
+            <label>Subject Code (Optional)</label>
+            <input name="subjectCode" placeholder="e.g. MATH-501, ILO7017, SCI-10" value="<%= paper?.subjectCode || '' %>">
+          </div>
+        </div>
+
+        <div class="row-3">
+          <div class="field">
+            <label>Semester / Standard / Grade *</label>
+            <input name="semester" required placeholder="e.g. Class 5, Grade 10, Semester VII" value="<%= paper?.semester || '' %>">
+          </div>
+          <div class="field">
+            <label>Examination Duration *</label>
+            <input name="duration" required placeholder="e.g. 2 Hours, 90 Minutes" value="<%= paper?.duration || '2 Hours' %>">
+          </div>
+          <div class="field">
+            <label>Maximum Target Marks *</label>
+            <input name="marks" id="targetMarksInput" type="number" required placeholder="e.g. 20, 50, 80, 100" value="<%= paper?.marks || '20' %>">
+          </div>
+        </div>
+      </div>
+
+      <!-- DYNAMIC SECTIONS & QUESTIONS -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px;">
+          <div>
+            <h3 style="margin:0; color:#fff;">2. Sections &amp; Examination Questions</h3>
+            <div class="muted">Add custom sections with question quotas and individual mark weights.</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:18px; font-weight:bold; color:var(--primary); font-family:monospace;" id="liveMarksDisplay">
+              Total Attemptable: 0 Marks
+            </div>
+          </div>
+        </div>
+
+        <div id="sectionsContainer">
+          <!-- SECTION 1 DEFAULT -->
+          <div class="card section-block" style="background:#091021; margin-bottom: 18px; border-color:var(--border);" data-section-index="0">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+              <h4 style="margin:0; color:#fff;">Section 1</h4>
+              <button type="button" class="btn danger small remove-section-btn" onclick="removeSection(this)" style="display:none;">Remove Section</button>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label>Section Title</label>
+                <input name="sections[0][title]" value="Section A: Short Answer Questions" required>
+              </div>
+              <div class="field">
+                <label>Section Instruction</label>
+                <input name="sections[0][instruction]" value="Answer any 5 out of 6 questions." required>
+              </div>
+            </div>
+
+            <div class="row-3">
+              <div class="field">
+                <label>Available Questions</label>
+                <input type="number" name="sections[0][availableQuestions]" class="avail-input" value="6" required min="1" oninput="updateLiveMarks()">
+              </div>
+              <div class="field">
+                <label>Questions To Attempt</label>
+                <input type="number" name="sections[0][questionsToAttempt]" class="attempt-input" value="5" required min="1" oninput="updateLiveMarks()">
+              </div>
+              <div class="field">
+                <label>Marks Per Question</label>
+                <input type="number" name="sections[0][marksPerQuestion]" class="marks-input" value="2" required min="1" oninput="updateLiveMarks()">
+              </div>
+            </div>
+
+            <div class="questions-list" style="margin-top: 14px;">
+              <label style="display:block; font-size:13px; font-weight:700; margin-bottom:8px; color:var(--ink);">Questions</label>
+              
+              <div class="question-item" style="display:flex; gap:10px; margin-bottom:10px;">
+                <input name="sections[0][questions][0][text]" placeholder="Enter examination question..." required style="flex:1;">
+                <button type="button" class="btn secondary small" onclick="removeQuestion(this)">&times;</button>
+              </div>
+              <div class="question-item" style="display:flex; gap:10px; margin-bottom:10px;">
+                <input name="sections[0][questions][1][text]" placeholder="Enter examination question..." required style="flex:1;">
+                <button type="button" class="btn secondary small" onclick="removeQuestion(this)">&times;</button>
+              </div>
+              <div class="question-item" style="display:flex; gap:10px; margin-bottom:10px;">
+                <input name="sections[0][questions][2][text]" placeholder="Enter examination question..." required style="flex:1;">
+                <button type="button" class="btn secondary small" onclick="removeQuestion(this)">&times;</button>
+              </div>
+              <div class="question-item" style="display:flex; gap:10px; margin-bottom:10px;">
+                <input name="sections[0][questions][3][text]" placeholder="Enter examination question..." required style="flex:1;">
+                <button type="button" class="btn secondary small" onclick="removeQuestion(this)">&times;</button>
+              </div>
+              <div class="question-item" style="display:flex; gap:10px; margin-bottom:10px;">
+                <input name="sections[0][questions][4][text]" placeholder="Enter examination question..." required style="flex:1;">
+                <button type="button" class="btn secondary small" onclick="removeQuestion(this)">&times;</button>
+              </div>
+              <div class="question-item" style="display:flex; gap:10px; margin-bottom:10px;">
+                <input name="sections[0][questions][5][text]" placeholder="Enter examination question..." required style="flex:1;">
+                <button type="button" class="btn secondary small" onclick="removeQuestion(this)">&times;</button>
+              </div>
+            </div>
+
+            <button type="button" class="btn secondary small" onclick="addQuestion(this)" style="margin-top:8px;">
+              + Add Question to Section
+            </button>
+          </div>
+        </div>
+
+        <button type="button" class="btn secondary" onclick="addSection()" style="margin-top: 10px;">
+          + Add New Section
+        </button>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <a class="btn secondary" href="/dashboard">Cancel</a>
+        <button class="btn" style="padding: 12px 28px; font-size:15px;">
+          Save &amp; Seal Examination Paper &rarr;
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    let sectionCount = 1;
+
+    function addQuestion(btn) {
+      const qList = btn.previousElementSibling;
+      const secBlock = btn.closest('.section-block');
+      const secIdx = secBlock.getAttribute('data-section-index');
+      const qIdx = qList.querySelectorAll('.question-item').length;
+
+      const div = document.createElement('div');
+      div.className = 'question-item';
+      div.style.cssText = 'display:flex; gap:10px; margin-bottom:10px;';
+      div.innerHTML = `
+        <input name="sections[${secIdx}][questions][${qIdx}][text]" placeholder="Enter examination question..." required style="flex:1;">
+        <button type="button" class="btn secondary small" onclick="removeQuestion(this)">&times;</button>
+      `;
+      qList.appendChild(div);
+      updateLiveMarks();
+    }
+
+    function removeQuestion(btn) {
+      const item = btn.closest('.question-item');
+      item.remove();
+      updateLiveMarks();
+    }
+
+    function addSection() {
+      const container = document.getElementById('sectionsContainer');
+      const secIdx = sectionCount++;
+
+      const div = document.createElement('div');
+      div.className = 'card section-block';
+      div.style.cssText = 'background:#091021; margin-bottom: 18px; border-color:var(--border);';
+      div.setAttribute('data-section-index', secIdx);
+
+      div.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+          <h4 style="margin:0; color:#fff;">Section ${secIdx + 1}</h4>
+          <button type="button" class="btn danger small remove-section-btn" onclick="removeSection(this)">Remove Section</button>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>Section Title</label>
+            <input name="sections[${secIdx}][title]" value="Section ${String.fromCharCode(65 + secIdx)}: Descriptive Questions" required>
+          </div>
+          <div class="field">
+            <label>Section Instruction</label>
+            <input name="sections[${secIdx}][instruction]" value="Answer any 2 out of 3 questions." required>
+          </div>
+        </div>
+        <div class="row-3">
+          <div class="field">
+            <label>Available Questions</label>
+            <input type="number" name="sections[${secIdx}][availableQuestions]" class="avail-input" value="3" required min="1" oninput="updateLiveMarks()">
+          </div>
+          <div class="field">
+            <label>Questions To Attempt</label>
+            <input type="number" name="sections[${secIdx}][questionsToAttempt]" class="attempt-input" value="2" required min="1" oninput="updateLiveMarks()">
+          </div>
+          <div class="field">
+            <label>Marks Per Question</label>
+            <input type="number" name="sections[${secIdx}][marksPerQuestion]" class="marks-input" value="5" required min="1" oninput="updateLiveMarks()">
+          </div>
+        </div>
+        <div class="questions-list" style="margin-top: 14px;">
+          <label style="display:block; font-size:13px; font-weight:700; margin-bottom:8px; color:var(--ink);">Questions</label>
+          <div class="question-item" style="display:flex; gap:10px; margin-bottom:10px;">
+            <input name="sections[${secIdx}][questions][0][text]" placeholder="Enter examination question..." required style="flex:1;">
+            <button type="button" class="btn secondary small" onclick="removeQuestion(this)">&times;</button>
+          </div>
+          <div class="question-item" style="display:flex; gap:10px; margin-bottom:10px;">
+            <input name="sections[${secIdx}][questions][1][text]" placeholder="Enter examination question..." required style="flex:1;">
+            <button type="button" class="btn secondary small" onclick="removeQuestion(this)">&times;</button>
+          </div>
+          <div class="question-item" style="display:flex; gap:10px; margin-bottom:10px;">
+            <input name="sections[${secIdx}][questions][2][text]" placeholder="Enter examination question..." required style="flex:1;">
+            <button type="button" class="btn secondary small" onclick="removeQuestion(this)">&times;</button>
+          </div>
+        </div>
+        <button type="button" class="btn secondary small" onclick="addQuestion(this)" style="margin-top:8px;">
+          + Add Question to Section
+        </button>
+      `;
+      container.appendChild(div);
+      updateLiveMarks();
+    }
+
+    function removeSection(btn) {
+      btn.closest('.section-block').remove();
+      updateLiveMarks();
+    }
+
+    function updateLiveMarks() {
+      const blocks = document.querySelectorAll('.section-block');
+      let totalAttemptable = 0;
+
+      blocks.forEach(block => {
+        const attempt = parseInt(block.querySelector('.attempt-input')?.value || 0, 10);
+        const marks = parseInt(block.querySelector('.marks-input')?.value || 0, 10);
+        totalAttemptable += (attempt * marks);
+      });
+
+      const display = document.getElementById('liveMarksDisplay');
+      const targetMarks = parseInt(document.getElementById('targetMarksInput').value || 0, 10);
+
+      display.innerHTML = `Total Attemptable: ${totalAttemptable} Marks (Target: ${targetMarks} Marks)`;
+      if (targetMarks > 0 && totalAttemptable !== targetMarks) {
+        display.style.color = 'var(--warn)';
+      } else {
+        display.style.color = 'var(--ok)';
+      }
+    }
+
+    document.getElementById('targetMarksInput').addEventListener('input', updateLiveMarks);
+    updateLiveMarks();
+  </script>
+
+  <div class="footer">
+    EXAM SENTRY &bull; Subject-Agnostic Examination Creator
+  </div>
+</body>
+</html>

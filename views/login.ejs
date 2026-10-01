@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Login — EXAM SENTRY</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('nav', { user: null }) %>
+  <div class="container">
+    <div class="card" style="max-width: 480px; margin: 50px auto; padding: 36px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 20px;">
+        <span class="badge">SECURE ACCESS</span>
+        <span class="muted" style="font-size:12px;">EXAM SENTRY v2.0</span>
+      </div>
+
+      <h1 style="font-size: 26px; margin: 0 0 8px; color:#fff;">System Sign In</h1>
+      <p class="muted" style="margin-bottom: 24px;">
+        Sign in as Authorizer or Registered Paper Setter.
+      </p>
+
+      <% if (error) { %>
+        <div class="error-banner">
+          <span>&times;</span>
+          <span><%= error %></span>
+        </div>
+      <% } %>
+
+      <% if (locals.success) { %>
+        <div class="success-banner">
+          <span>&#10003;</span>
+          <span><%= success %></span>
+        </div>
+      <% } %>
+
+      <form method="post" action="/login">
+        <div class="field">
+          <label>Email Address</label>
+          <input name="email" type="email" required placeholder="faisaldiddi@gmail.com or setter@institution.edu" value="<%= locals.email || '' %>">
+        </div>
+
+        <div class="field">
+          <label>Password</label>
+          <input name="password" type="password" required placeholder="••••••••">
+        </div>
+
+        <button class="btn" style="width: 100%; margin-top: 8px;">
+          Authenticate & Continue
+        </button>
+      </form>
+
+      <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border); text-align: center;">
+        <span class="muted">New Paper Setter?</span> <a href="/signup" style="color:var(--primary); font-weight:700; margin-left:6px;">Check Authorization & Sign Up</a>
+      </div>
+
+      <div style="margin-top: 20px; padding: 14px; background: rgba(0, 240, 255, 0.04); border: 1px solid rgba(0, 240, 255, 0.15); border-radius: 8px; font-size: 12px; color: var(--ink-muted);">
+        <b>Authorizer Account:</b> <span style="font-family:monospace; color:#fff;">faisaldiddi@gmail.com</span><br>
+        <b>Default Password:</b> <span style="font-family:monospace; color:#fff;">Pass@123</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    EXAM SENTRY &bull; "SECURE. MONITOR. TRACE."
+  </div>
+</body>
+</html>

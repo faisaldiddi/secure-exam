@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Examination Papers — EXAM SENTRY</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('nav', { user }) %>
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="badge">SECURE REPOSITORY</span>
+          <span class="muted" style="font-size:12px; font-family:monospace;">AES-256-GCM ENCRYPTED</span>
+        </div>
+        <h1 style="margin-top:6px;">Examination Papers</h1>
+        <div class="muted">All papers stored under cryptographic seal with immutable audit tracking.</div>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <% if (user.role === 'PAPER_SETTER') { %>
+          <a class="btn" href="/papers/ai-wizard">+ AI Auto Generate</a>
+          <a class="btn secondary" href="/papers/new">+ Manual Create</a>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- FILTER TABS -->
+    <div class="tabs">
+      <div class="tab <%= !locals.filter || filter === 'all' ? 'active' : '' %>" onclick="filterPapers('all')">
+        All Papers (<%= papers.length %>)
+      </div>
+      <div class="tab <%= locals.filter === 'draft' ? 'active' : '' %>" onclick="filterPapers('DRAFT')">
+        Drafts (<%= papers.filter(p => p.status === 'DRAFT').length %>)
+      </div>
+      <div class="tab <%= locals.filter === 'validated' ? 'active' : '' %>" onclick="filterPapers('VALIDATED')">
+        Validated (<%= papers.filter(p => p.status === 'VALIDATED').length %>)
+      </div>
+      <div class="tab <%= locals.filter === 'approved' ? 'active' : '' %>" onclick="filterPapers('APPROVED')">
+        Approved (<%= papers.filter(p => p.status === 'APPROVED' || p.status === 'LOCKED').length %>)
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Paper ID</th>
+            <th>Subject &amp; Code</th>
+            <th>Mode</th>
+            <th>Marks</th>
+            <th>Status</th>
+            <th>Compliance</th>
+            <th>Last Updated</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="papersTableBody">
+          <% if (papers.length === 0) { %>
+            <tr>
+              <td colspan="8" style="text-align:center; padding: 40px; color:var(--ink-muted);">
+                No papers found in repository.
+              </td>
+            </tr>
+          <% } %>
+          <% papers.forEach(p => { %>
+            <tr class="paper-row" data-status="<%= p.status %>">
+              <td><span style="font-family:monospace; color:var(--primary); font-weight:700;"><%= p.id %></span></td>
+              <td>
+                <b><%= p.subject || p.title || 'Untitled' %></b>
+                <% if (p.subjectCode) { %><br><small class="muted"><%= p.subjectCode %></small><% } %>
+              </td>
+              <td><span class="badge badge-outline"><%= p.mode || 'MANUAL' %></span></td>
+              <td><%= p.marks || '-' %> M</td>
+              <td><span class="status <%= p.status %>"><%= p.status %></span></td>
+              <td>
+                <span class="badge <%= (p.complianceScore || 100) >= 90 ? 'badge-ok' : 'badge-warn' %>">
+                  <%= p.complianceScore || 100 %>%
+                </span>
+              </td>
+              <td class="muted"><%= new Date(p.updatedAt || p.createdAt).toLocaleString() %></td>
+              <td>
+                <div style="display:flex; gap:6px;">
+                  <a class="btn secondary small" href="/papers/<%= p.id %>/view">Preview</a>
+                  <% if (p.status !== 'APPROVED' && p.status !== 'LOCKED') { %>
+                    <form method="post" action="/papers/<%= p.id %>/approve" style="margin:0;">
+                      <button class="btn small" style="background:#10b981; border-color:#10b981;">Approve</button>
+                    </form>
+                  <% } %>
+                  <% if (user.role === 'AUTHORIZER') { %>
+                    <a class="btn secondary small" target="_blank" href="/debug/encrypted/<%= p.id %>">Ciphertext</a>
+                  <% } %>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function filterPapers(status) {
+      const rows = document.querySelectorAll('.paper-row');
+      rows.forEach(r => {
+        if (status === 'all' || r.getAttribute('data-status') === status) {
+          r.style.display = '';
+        } else {
+          r.style.display = 'none';
+        }
+      });
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+  </script>
+
+  <div class="footer">
+    EXAM SENTRY &bull; Cryptographically Sealed Examination Repository
+  </div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Paper Setter Registration — EXAM SENTRY</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('nav', { user: null }) %>
+  <div class="container">
+    <div class="card" style="max-width: 540px; margin: 40px auto; padding: 32px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 20px;">
+        <span class="badge">SECURE REGISTRATION</span>
+        <span class="muted" style="font-size:12px;">DEFAULT-DENY POLICY</span>
+      </div>
+
+      <h1 style="font-size: 26px; margin: 0 0 8px; color:#fff;">Paper Setter Signup</h1>
+      <p class="muted" style="margin-bottom: 24px;">
+        Registration requires pre-authorization by the Exam Sentry Authorizer.
+      </p>
+
+      <% if (error) { %>
+        <div class="error-banner">
+          <span>&times;</span>
+          <span><%= error %></span>
+        </div>
+      <% } %>
+
+      <form method="post" action="/signup" id="signupForm">
+        <div class="field">
+          <label>Full Name</label>
+          <input name="name" type="text" required placeholder="Dr. Jane Doe" value="<%= locals.name || '' %>">
+        </div>
+
+        <div class="field">
+          <label>Institutional Email Address</label>
+          <input name="email" id="emailInput" type="email" required placeholder="setter@institution.edu" value="<%= locals.email || '' %>" autocomplete="off">
+          <div id="whitelistStatus" style="margin-top: 8px; font-size: 13px; font-weight: 700; min-height: 20px;"></div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>Password</label>
+            <input name="password" id="passInput" type="password" required placeholder="••••••••">
+          </div>
+          <div class="field">
+            <label>Confirm Password</label>
+            <input name="confirmPassword" id="confirmPassInput" type="password" required placeholder="••••••••">
+          </div>
+        </div>
+
+        <button class="btn" id="submitBtn" style="width: 100%; margin-top: 10px;" disabled>
+          Complete Authorized Registration
+        </button>
+      </form>
+
+      <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border); text-align: center;">
+        <span class="muted">Already registered?</span> <a href="/login" style="color:var(--primary); font-weight:700; margin-left:6px;">Sign In</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const emailInput = document.getElementById('emailInput');
+    const statusDiv = document.getElementById('whitelistStatus');
+    const submitBtn = document.getElementById('submitBtn');
+    const passInput = document.getElementById('passInput');
+    const confirmPassInput = document.getElementById('confirmPassInput');
+
+    let isAuthorized = false;
+
+    async function checkWhitelist() {
+      const email = emailInput.value.trim();
+      if (!email || !email.includes('@')) {
+        statusDiv.innerHTML = '';
+        submitBtn.disabled = true;
+        isAuthorized = false;
+        return;
+      }
+
+      statusDiv.innerHTML = '<span style="color:var(--ink-muted);">Verifying institutional authorization...</span>';
+
+      try {
+        const res = await fetch('/api/check-whitelist?email=' + encodeURIComponent(email));
+        const data = await res.json();
+
+        if (data.status === 'WHITELISTED') {
+          statusDiv.innerHTML = '<span style="color:var(--ok);">AUTHORIZED &#10003; (Ready to complete registration)</span>';
+          isAuthorized = true;
+        } else if (data.status === 'REGISTERED') {
+          statusDiv.innerHTML = '<span style="color:var(--warn);">&#9888; Email already registered. <a href="/login" style="color:var(--primary);text-decoration:underline;">Click here to sign in</a>.</span>';
+          isAuthorized = false;
+        } else if (data.status === 'REVOKED') {
+          statusDiv.innerHTML = '<span style="color:var(--danger);">&#10007; Your Paper Setter access has been revoked by the Exam Sentry Authorizer.</span>';
+          isAuthorized = false;
+        } else {
+          statusDiv.innerHTML = '<span style="color:var(--danger);">&#10007; Your email has not been authorized by the Exam Sentry Authorizer.</span>';
+          isAuthorized = false;
+        }
+      } catch (err) {
+        statusDiv.innerHTML = '<span style="color:var(--danger);">Error checking authorization status.</span>';
+        isAuthorized = false;
+      }
+      validateForm();
+    }
+
+    function validateForm() {
+      const pass = passInput.value;
+      const confirmPass = confirmPassInput.value;
+      const passwordsMatch = pass && pass === confirmPass;
+
+      submitBtn.disabled = !(isAuthorized && passwordsMatch);
+    }
+
+    let debounceTimer;
+    emailInput.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(checkWhitelist, 400);
+    });
+
+    passInput.addEventListener('input', validateForm);
+    confirmPassInput.addEventListener('input', validateForm);
+
+    if (emailInput.value) {
+      checkWhitelist();
+    }
+  </script>
+</body>
+</html>

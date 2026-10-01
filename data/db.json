@@ -1,0 +1,645 @@
+{
+  "users": [
+    {
+      "id": "USR-AUTHORIZER-1",
+      "name": "Exam Sentry Authorizer",
+      "email": "faisaldiddi@gmail.com",
+      "passwordHash": "$2a$10$jiu/5ygF2yQDPRr4ZENwBOoVCDURSm0KD7gL0ZXKOC8aO4TaS.51u",
+      "role": "AUTHORIZER",
+      "staffCode": "AUTH-001",
+      "active": true,
+      "sessionVersion": 1,
+      "createdAt": "2026-10-01T00:00:00.000Z"
+    },
+    {
+      "id": "USR-SET-MUP8VSVC-FA9B3B",
+      "name": "Faisal D",
+      "email": "faisaldiddi@gmail.com",
+      "passwordHash": "$2a$10$IRO79jTUhktsHh2Gnmw1j.3U0PDjhq/PPZnIl2IjQxdO8Jdrhhaci",
+      "role": "PAPER_SETTER",
+      "staffCode": "STF-MUP8VSX7-A45059",
+      "active": true,
+      "sessionVersion": 1,
+      "createdAt": "2026-10-01T08:00:55.339Z"
+    },
+    {
+      "id": "USR-SET-MUP8ZCKU-6B8B32",
+      "name": "shahzan",
+      "email": "shahzanshaikh786@gmail.com",
+      "passwordHash": "$2a$10$VgTeFCN.5uYN6BMV8LFEVue1F/vGE1tCW9m0APD/rvfIu/JAzxQMm",
+      "role": "PAPER_SETTER",
+      "staffCode": "STF-MUP8ZCMP-8713E3",
+      "active": true,
+      "sessionVersion": 1,
+      "createdAt": "2026-10-01T08:03:40.849Z"
+    }
+  ],
+  "whitelist": [
+    {
+      "id": "WHT-MUP8UBQZ-F86BC8",
+      "email": "faisaldiddi@gmail.com",
+      "status": "REGISTERED",
+      "createdBy": "faisaldiddi@gmail.com",
+      "createdAt": "2026-10-01T07:59:46.427Z",
+      "updatedAt": "2026-10-01T08:00:55.339Z",
+      "registeredUserId": "USR-SET-MUP8VSVC-FA9B3B",
+      "revokedAt": null,
+      "revokedBy": null
+    },
+    {
+      "id": "WHT-MUP8UZFF-8C42D8",
+      "email": "shahzanshaikh786@gmail.com",
+      "status": "REGISTERED",
+      "createdBy": "faisaldiddi@gmail.com",
+      "createdAt": "2026-10-01T08:00:17.115Z",
+      "updatedAt": "2026-10-01T08:03:40.849Z",
+      "registeredUserId": "USR-SET-MUP8ZCKU-6B8B32",
+      "revokedAt": null,
+      "revokedBy": null
+    }
+  ],
+  "papers": [
+    {
+      "id": "ES-PAP-MUP91URY-C4005D",
+      "title": "Automated Examination Paper",
+      "subject": "",
+      "subjectCode": "",
+      "institution": "",
+      "department": "",
+      "semester": "",
+      "exam": "Semester Examination",
+      "duration": "2 Hours",
+      "marks": 20,
+      "difficulty": "MODERATE",
+      "mode": "AI_AUTO_GENERATE",
+      "status": "DRAFT",
+      "sections": [],
+      "encryptedContent": "",
+      "createdBy": "USR-SET-MUP8ZCKU-6B8B32",
+      "creatorEmail": "shahzanshaikh786@gmail.com",
+      "createdAt": "2026-10-01T08:05:37.678Z",
+      "updatedAt": "2026-10-01T08:05:37.678Z"
+    },
+    {
+      "id": "ES-PAP-MUP901JK-5F9685",
+      "title": "Automated Examination Paper",
+      "subject": "e11dd650 d685 4c79 a7fe 4ea8720ac06c (1)",
+      "subjectCode": "",
+      "institution": "Academic Institution",
+      "department": "",
+      "semester": "Standard / Semester",
+      "exam": "Semester Examination",
+      "duration": "2 Hours",
+      "marks": 20,
+      "difficulty": "MODERATE",
+      "mode": "AI_AUTO_GENERATE",
+      "status": "VALIDATION_FAILED",
+      "sections": [
+        {
+          "sectionId": "SEC-1",
+          "title": "Section A: Short Answer Questions",
+          "instruction": "Answer any 5 questions out of 6 (Compulsory section).",
+          "availableCount": 6,
+          "attemptCount": 5,
+          "marksPerQuestion": 2,
+          "attemptableMarks": 10,
+          "questions": [
+            {
+              "id": "Q-SEC-1-1",
+              "questionNumber": "1",
+              "questionText": "Define Fundamental Principles and explain its fundamental importance in General Examination.",
+              "marks": 2,
+              "subjectName": "General Examination",
+              "subjectCode": "",
+              "moduleId": "1",
+              "moduleName": "Core Concepts",
+              "topicIds": [
+                "TOPIC-M1-1"
+              ],
+              "topicNames": [
+                "Fundamental Principles"
+              ],
+              "courseOutcome": "CO1",
+              "bloomLevel": "BL2 Understand",
+              "difficulty": "MODERATE"
+            },
+            {
+              "id": "Q-SEC-1-2",
+              "questionNumber": "2",
+              "questionText": "Describe the primary characteristics and concept of Fundamental Principles.",
+              "marks": 2,
+              "subjectName": "General Examination",
+              "subjectCode": "",
+              "moduleId": "1",
+              "moduleName": "Core Concepts",
+              "topicIds": [
+                "TOPIC-M1-1"
+              ],
+              "topicNames": [
+                "Fundamental Principles"
+              ],
+              "courseOutcome": "CO1",
+              "bloomLevel": "BL2 Understand",
+              "difficulty": "MODERATE"
+            },
+            {
+              "id": "Q-SEC-1-3",
+              "questionNumber": "3",
+              "questionText": "Briefly explain the role of Fundamental Principles with suitable illustrations.",
+              "marks": 2,
+              "subjectName": "General Examination",
+              "subjectCode": "",
+              "moduleId": "1",
+              "moduleName": "Core Concepts",
+              "topicIds": [
+                "TOPIC-M1-1"
+              ],
+              "topicNames": [
+                "Fundamental Principles"
+              ],
+              "courseOutcome": "CO1",
+              "bloomLevel": "BL2 Understand",
+              "difficulty": "MODERATE"
+            },
+            {
+              "id": "Q-SEC-1-4",
+              "questionNumber": "4",
+              "questionText": "State the key objectives and principles governing Fundamental Principles.",
+              "marks": 2,
+              "subjectName": "General Examination",
+              "subjectCode": "",
+              "moduleId": "1",
+              "moduleName": "Core Concepts",
+              "topicIds": [
+                "TOPIC-M1-1"
+              ],
+              "topicNames": [
+                "Fundamental Principles"
+              ],
+              "courseOutcome": "CO1",
+              "bloomLevel": "BL2 Understand",
+              "difficulty": "MODERATE"
+            },
+            {
+              "id": "Q-SEC-1-5",
+              "questionNumber": "5",
+              "questionText": "Define Fundamental Principles and explain its fundamental importance in General Examination.",
+              "marks": 2,
+              "subjectName": "General Examination",
+              "subjectCode": "",
+              "moduleId": "1",
+              "moduleName": "Core Concepts",
+              "topicIds": [
+                "TOPIC-M1-1"
+              ],
+              "topicNames": [
+                "Fundamental Principles"
+              ],
+              "courseOutcome": "CO1",
+              "bloomLevel": "BL2 Understand",
+              "difficulty": "MODERATE"
+            },
+            {
+              "id": "Q-SEC-1-6",
+              "questionNumber": "6",
+              "questionText": "Describe the primary characteristics and concept of Fundamental Principles.",
+              "marks": 2,
+              "subjectName": "General Examination",
+              "subjectCode": "",
+              "moduleId": "1",
+              "moduleName": "Core Concepts",
+              "topicIds": [
+                "TOPIC-M1-1"
+              ],
+              "topicNames": [
+                "Fundamental Principles"
+              ],
+              "courseOutcome": "CO1",
+              "bloomLevel": "BL2 Understand",
+              "difficulty": "MODERATE"
+            }
+          ],
+          "printedMarks": 12
+        },
+        {
+          "sectionId": "SEC-2",
+          "title": "Section B: Descriptive & Analytical Questions",
+          "instruction": "Answer any 2 questions out of 3.",
+          "availableCount": 3,
+          "attemptCount": 2,
+          "marksPerQuestion": 5,
+          "attemptableMarks": 10,
+          "questions": [
+            {
+              "id": "Q-SEC-2-1",
+              "questionNumber": "1",
+              "questionText": "Explain the core concepts, direct impacts, and mechanisms of Fundamental Principles in detail.",
+              "marks": 5,
+              "subjectName": "General Examination",
+              "subjectCode": "",
+              "moduleId": "1",
+              "moduleName": "Core Concepts",
+              "topicIds": [
+                "TOPIC-M1-1"
+              ],
+              "topicNames": [
+                "Fundamental Principles"
+              ],
+              "courseOutcome": "CO1",
+              "bloomLevel": "BL4 Analyze",
+              "difficulty": "MODERATE"
+            },
+            {
+              "id": "Q-SEC-2-2",
+              "questionNumber": "2",
+              "questionText": "Compare and contrast Fundamental Principles with related environmental or organizational hazards.",
+              "marks": 5,
+              "subjectName": "General Examination",
+              "subjectCode": "",
+              "moduleId": "1",
+              "moduleName": "Core Concepts",
+              "topicIds": [
+                "TOPIC-M1-1"
+              ],
+              "topicNames": [
+                "Fundamental Principles"
+              ],
+              "courseOutcome": "CO1",
+              "bloomLevel": "BL4 Analyze",
+              "difficulty": "MODERATE"
+            },
+            {
+              "id": "Q-SEC-2-3",
+              "questionNumber": "3",
+              "questionText": "Discuss the regulatory framework, challenges, and implementation strategies for Fundamental Principles.",
+              "marks": 5,
+              "subjectName": "General Examination",
+              "subjectCode": "",
+              "moduleId": "1",
+              "moduleName": "Core Concepts",
+              "topicIds": [
+                "TOPIC-M1-1"
+              ],
+              "topicNames": [
+                "Fundamental Principles"
+              ],
+              "courseOutcome": "CO1",
+              "bloomLevel": "BL4 Analyze",
+              "difficulty": "MODERATE"
+            }
+          ],
+          "printedMarks": 15
+        }
+      ],
+      "encryptedContent": "32b6ffc5fb479ea268b92a33:268170af1fd3fcf0343ff5704f1993d9:180760fbe1019cb85583278b2b36cf94db0987eb1613da29a300faa18ececbc2b5f0d33ded331abcbc89b1fae49e00ae6762bfd353ec3a01cf7a1d01b0b4ae7716a442d3042a1f70f8069abb5b81c9ca86780af5b32fef0491732d64b2bc1fc42c8f75844009765be704ec97fcf934b4c9084b7f9d40151266cd7ca7862aa60293e08a4c7e7b1dbcb5c7058e9e0333d739fb3e960b56c7283ffd9c1faf22f6da0d7e1f384cba3efbc3cf45d836bfba10e375a32af57767655aef5ceaba621665dd9e14bfd61e07fae8e0ee08a9a7294d09abbb7e65c5e097b20a81772dc71364d2f5b3c50ac30259be82a09835650931288fc85f8748b9f4e1065d8a70f65f50a29b1d093c6b8773668f8255d589155724728e1c4a759ff416503a3ab13458ce975e21732f927e93db768e7a12923a4a3466a64a82ef525fb820d36cfe3b7f2b1af1b6c2eeb4c94bac62c30a61aa2094cb7a94aaae10b66d6b775a6cc28d17fbf8ba2d2efe412b3665ec381d20729643b20ecac350b5148a6c87e3fccd57ba9f1bc3fde9cc8ad7b53178a19c4553d3f26a3b45a4af541a423ffb9a4918d1a1c8f0cd0488975c88505e102f06f52d39c829f567ef02d82049595e292b12e90bb000081d6b6567093d3042e2c984fc76c1ce6e26a34dace318ba495803d601630c7b471df4d13c9e2f5a1368a40994ad6f676371db53e1b3b95d14adf39692f172ea559aad8c3c88296668d167a718b93a3107c39aba3119facad1eba9369ae3412d7e1f47826a52cb841d8a636bc4a727482adc7825c0fe273385e9238344babda4d9bd4ef05f5028c63c5b3e9ee90823e7a12a5bb1ddd60dd90edb0d34068810670937d8e949ada3c8666ad9bd40d6149961a65f33ecce5bf74d44150c079548aa8da9975145b29b092df370925fe591836c55c94ad5b6117094f87701aa8e4d8dd5bdc6aa6ce83b81567044e1d6a4305c429ac562e7206dde94f8092a2aed175cd75b42612eb3e38b5c27c21f6f3ea049977f85db5c7eeb17fb4e4b62a684d43c3828712a16b2aae828c2aaf36f43dbb4a26b7e382dec29a438d61c213706a8b056e58f9d3ecf5424efac6ca1cf1095fc8c07cd4e8caf6bb58690ff97789156e4bee25e50c8db7fa815337d8145b2862bc14a95f803f311160e2b76447042be55d3296a6ddc58f33603d68b4d2fdcafafdbf47e1dfcac038566029995fd64d3f083812d2ebe82f62baabc62be1c44d73828a967983fd323ba0620cf536638d8992da9fd09339612e253c831846b58db51656a894392e11b932e0e605dd4f219a5934eb2e3eb6dd0dbe54b4217e0dba32c60078bb764d6b255cd50a103cfba59e3b2d1e8652afca5fababbc68877d7022581e1535ff19dbc1195fbdb87a30073be8a43ce606333e3f2ca6201ea661d5e67fba731fbbc18626012115d3eb2ee2f605b0c939613504d0c4480beb9a85536f27593f1363d3b2ffb57e10f592c7741814aacb45c219a3f0831d72546465f7ff16e250e2352a4d25208c4ce8dd680e63faee3d5b2915868f4c3265f6ea2d29ea428d4c1c856157fc2396657a287400883f293602973a2fc8f55f8228318aeef45d0cab0bbfec3aaeaeb7e1b3c7b451c04c827a5324903d20d63612dc0af3db702d93821034ed58261704920783227b64c71a1210c6328d3d042d478d7a95aac0ad8c9f7ee692f7a2f270d14cc4b14238426ae8dcc5a37c262f8d9248a0ebb933f4ec8e79be0b503fa4f9e5e822758eefb27d9c19c57ad5fd05264bd4cc1114101c2980b615ec78d98289b6f98717fe1b90b5f2aca9acc3e4b0497476bb41b1bb8173fb2d70c2bde1c0426db09e8a3c234dcb7c5f181d2a955b986c39663d051dcba2a7f171cff964d79097a3ac01a4f3dd5de5f2e3f0de3174d3060bb41e2ce7c4cd61f92a30f725c22f191a04fd875fc2db80d904ef765200ec43a66f69650ba24840c7dae4c9665c73c632c34087e98d679957ec93c13b6bad20145b5854555625e94ed0a37e5f13678a8d21d9025a8711750b67d950d01a514d5fcf694e367d9818ddbe0ae764055c7c8a75594a3e2dafa2e4f9bf2504549be779449c39146febf2e7c5cdc0c986b44798c0f112915e1e043cd8c66605eb79d5ed4abde07878e91c76cf23b304183215b17e97f2c2b0a8f712ffda7d9aa45c29226e6f0f46ba77587fe2b665be51b87f1782561435f022195d68b38269c6001a3255c976f0c76ad92627f75b9e1ecff671df7ec745f6fd34f168c2cc966619135a07ce928f3009bee77e9e3cf6a4ca67d9c8c454a1679d85f3f68cb95039016e940369e28c3f6bb1472ed4a04a2aa0fa5be00cb89ceeaccd25b6ad2e9bc19415b8fcffe348cd28015ffe87e86d9b99c395fc9f6aaed94cbf76d9fadd04de496979426bd2a522a241e0d15a9f053dfe1c5e10ad133387dac712ab23f099d95d17c21b9c4695f6de056f9fb367f7be3c40da3f41dad3ea9114f2b75dfc93176a2dfe9b437503eb4c95c8d19e78671c90be129ee81bb06570f2bac44127d474c29c8ea509503a79aee2470ab31b7713bee5f5bcfd3c408f988fa647b8cb664bcf970b1cc6da54b3e1116d502bb72482c9971df719a31da3a4229d6e5b79ac90e4d568db67ce74cef828af5679d023e28ede4f0abf31206ff264bbc7d9fc6ba53bce3545fac16e10f37d1a69865d3cb0e7d383eab90384000100bbb630c963e7054868f5acc9bf25df819c56a4047db881934ad9b08499409d8e444803d309d9a25c5eac1e4242a5981504b04c0502269fcac4ee26560b6cff8e5877ea4e55ae5c11c035b0e4e3ff7c14e5c499b270d0281698593ea7052fe5c3e798c6b0e085eaa6919855acec7a998cba24c5eba8d3cbf3a846f7c5a8e44fba2dbecb53edc53b7df34beb1ed11dc6c9398af8e522c987512fa647fa47ce6914e52f01f8c64f46685e13cfd6df7459b23fab5b99c5b43b5673de21fccc8d42f51de3d8cc452be6749dce43a79c8cbe439895cd66e12e125cfd5558991dc1ca50f3b28d4f0b27d07cb020ae3076dbac180971e00461224c0e211b22ec8ed7ba0018d05b2c749111dc39056456f0dc168c57b42b6234ca78226fda4d0f72531a743a7ac841ed73dcc7accc16de4ed05e2f899aa58c8f06740b4257003b1e325ddd6b8a83b91151e6c36587d7de4731d5b3046195c94fc44ecbe53df8edb5d9995555a121c1f7d50e52ce80039e0c29b0789f01ba98111fae37acf833a56a3ea4a638f20a970c3292086be862a03169e470ee00a550fbda928842a1011bcba2037fd20b7ed75005078d5aaa8cb3e7f24439c8e98165b08d9ba5e2abf02dbe1c248afc2158705eafbb118c84e5c6abfc646a3fe63f40538337a177532a4575c5e18418d2a940a43ad5eb8a4a1fe35ccd919cae741cab1c99aaaeee8f04758950a33f6ba4379559e0d35903e1622826c36ba393165160c17c35d2d7cf60fbab9ce9c734813e1b88b498d49c1efeba4bc873b5f3020bd8ef7a946ebfa73b533adb80e5bb1bbe7155123414f48dde7f13303e6410194604db55f43a8fbfa5bb27997071adff8666b7bc43b171c7120ae97222511b2ae5b36e382b440e4f330bea33962953fdd0883da13859cd430aafc4d7adfe1cbb94cbf8217a59d7f4b5a89b2d368ddf439f681f2f9f2cfe7630983b404c4944243f4a7596e3fa26f8a19c9863ce4cb29678aab39d973b743a73e91d2fbd40c7c5f8ee5ba20e1ddd5e4220233e307bfbf24229c98e9a76b2867b4edcf7d81152c6a1280d73c03788fe2a4c81062aae6dbf6238d3166f0c017724cd3aebde6269c66e7df3671df493f8899c1c285312132c6cf282cc97a65778479da9d2576279b70484e9bb3c7ffd1441f1257b1e915afc58fb7c997e6f7c70b37dc0619a0b6ddf83f2fb3bd4e5a82e38e7b9da40af321d342d9e98969e82e60933e31151de47c8fa655763641381dc9f95c9cdef39b967c03133304b1b9a53da491365b24f7bce82720898a3f93ca8018cb951bbe8a932844a35d6f0285d668c28770efbc92a206f374f13784e035a2a561ba3d12a63a2c929711c0bc0c0eb56355794bf647f8db9cf5887da925511bf59c5aae92daa6422f07da0ec69194a28fa72dbb058e401a4850cf47e0d822b6ad475e894e330342aa2ab8520e2ac95282cebcfe706850b65556b960adff05edce4bf61b009e62f30b444f69e2323f684ba45ab664f676525a1303625e1021c01c6fdab39c79e81905aaee666119a53c052a7b2ae91433f2a3d8914de7413839ada6e314dc4955f47d08cdab5a3a2ab39e48ac8bad01c089e352f583333a94aaf0ec36017ac6b566b22fe20b8627a300f3c7d9a5f4dcd2fbf3203c825bb931de66ca22f0d1dc84a1bc54053740eb602ee54d87eb8014119ac9f62e7e1980992b5f0dd7c036fdf07adb736c43f9b01e6ff3fe079e9e01cbadce0d402534f28db6270b6e093b4ed3ce799675e333e572a52ea6eaa18c622200734c6c24d0bb9c5b3e1b6723dd4fb3e4daabb8d937ab3a896b5a236392ea8338124a112446199cc53000e9b253ff2c6bc471c6319648376c91d824d2d35821999f8f3962cad5adeb94a9d362a80a1990370191f432bc1efc9f6a247def7c5132e5d4eebe286d640c3f69a3def5e3307d2d750f3bdecaf9e34b2ba9e7bcbb9880652927b21f691be025840bf80522a52549d32321036824698ba5887463cda3b9cb3445e122bbb1dd07a46aa0bee51f98a0bd6421aedbec1af9b438ca297179854efd543b17d25518c4aca50be82e400a0075d5a082b1bc676208c2119b9f64b17c85e80d080026110c90c861bc96ae049c9ef85ae5d70b702234f10ed90df0439b29e43dd48af7423cc7cc60ce9d04ace0f44cbdd42cd7ff100d9795112c245ad8abc0c4bdf52df794835157a0f10fb76516b37baa12230fbe2507d31d65ca70d847b3f5d0a3368254e5e7701f75c85e88c9d4e18cb9ad1784d8f7b5d69a9a67b62ad1b4df03b19a2e77b185da7d5d843879df579d300d7b2d47731207e43feec4e6dfa67e9d971b7859bfaa31616d91fd4adf1ad24ca8479d8c71673517e8cc5b45b1cb48d9b493a2b652d318d9ad14f24e551dab5f1bcbc92de229ba5c812f5201e53d7d79f5d7689619e565c4a1255c03d9a625dc72c7b7a678b0ed33015e7369dad0d96659327b71b2ae9a98f02ad765947068f582fdbc6277086fb60498b03fc28bc2641d217fe444a539ac1cc31e6395e8484a2d7ef1597669091dcaef0a94e1ec1f8f3e4c4d2dcdccd09783ba4aa1cd2666d6ee2f75c4147c4a8e1fa85c4e8a41dbec524b8130998b41f839ac9ab37d068177673a1e08d21522e6d9a310f379107438acc31804c9e0c5d6144c4c452ab44bc451289bc4324c0c09ca238bc47d59b6d95d7e0f2ec18c750cca3d0e143684e1b58cbf93d9a4c78191f193ce7afef7a4d703cfe5f9dc5b724550367228495d69c61200e7422ad507521deaf0403beebabf39428b80817d3a83b0118c6771c872ccbaac3e1ad06d1be40cd614e4869994d28c661c8ee9813e6e4752fd60359a371457ccedabb5ac8d353515026d89d89b8696f7f6ddf90be47cc9e25a42a28362ec348e8fb46e6ac5ebdda7c0730a7e77f91295d20dc72293e25236d76f8e2504b912db660c6e1367e8",
+      "createdBy": "USR-SET-MUP8ZCKU-6B8B32",
+      "creatorEmail": "shahzanshaikh786@gmail.com",
+      "createdAt": "2026-10-01T08:04:13.136Z",
+      "updatedAt": "2026-10-01T08:04:36.710Z",
+      "academicScope": {
+        "documentType": "EXAM_BLUEPRINT",
+        "institution": {
+          "name": "Academic Institution",
+          "department": null
+        },
+        "subject": {
+          "name": "e11dd650 d685 4c79 a7fe 4ea8720ac06c (1)",
+          "code": null,
+          "confidence": 0.5
+        },
+        "exam": {
+          "semesterOrStandard": "Standard / Semester",
+          "examType": "Examination",
+          "academicYear": "2026-2027"
+        },
+        "courseObjectives": [],
+        "courseOutcomes": [],
+        "modules": [
+          {
+            "moduleNumber": "1",
+            "moduleName": "Core Concepts",
+            "courseOutcome": 1,
+            "hours": 6,
+            "marksWeightagePercent": 100,
+            "syllabusPercent": 100,
+            "marksRange": {
+              "minimum": 10,
+              "maximum": 20
+            },
+            "topicGroups": [
+              {
+                "groupName": "Core Concepts",
+                "topics": [
+                  {
+                    "topicId": "TOPIC-M1-1",
+                    "topicName": "Fundamental Principles",
+                    "subtopics": [],
+                    "sourceText": "Fundamental Principles",
+                    "confidence": 0.8
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "needsReview": [
+          "Document requires visual OCR or manual review"
+        ],
+        "statistics": {
+          "pagesDetected": 1,
+          "pagesProcessed": 1,
+          "modulesDetected": 1,
+          "topicsDetected": 1
+        }
+      },
+      "complianceScore": 60,
+      "complianceReport": {
+        "isValid": false,
+        "complianceScore": 60,
+        "subjectIntegrity": {
+          "passed": true,
+          "paperSubject": "e11dd650 d685 4c79 a7fe 4ea8720ac06c (1)",
+          "blueprintSubject": null
+        },
+        "blueprintScope": {
+          "passed": true,
+          "totalModulesInBlueprint": 1,
+          "totalTopicsInBlueprint": 1
+        },
+        "questionsMapped": {
+          "passed": true,
+          "totalQuestions": 9,
+          "mappedQuestions": 9
+        },
+        "outOfSyllabusCount": 0,
+        "crossSubjectCount": 0,
+        "marksValidation": {
+          "passed": true,
+          "targetMarks": 20,
+          "calculatedAttemptable": 20,
+          "calculatedPrinted": 27
+        },
+        "duplicatesDetected": [
+          {
+            "q1": "Q-SEC-1-1",
+            "q2": "Q-SEC-1-5",
+            "similarity": 100
+          },
+          {
+            "q1": "Q-SEC-1-2",
+            "q2": "Q-SEC-1-6",
+            "similarity": 100
+          }
+        ],
+        "errors": [
+          "DUPLICATE DETECTED: Questions Q-SEC-1-1 and Q-SEC-1-5 have 100% similarity.",
+          "DUPLICATE DETECTED: Questions Q-SEC-1-2 and Q-SEC-1-6 have 100% similarity."
+        ],
+        "warnings": []
+      }
+    }
+  ],
+  "blueprintSnapshots": {
+    "ES-PAP-MUP901JK-5F9685": {
+      "blueprintId": "BLU-MUP90FK6-6C8360",
+      "version": 1,
+      "paperId": "ES-PAP-MUP901JK-5F9685",
+      "subject": "e11dd650 d685 4c79 a7fe 4ea8720ac06c (1)",
+      "subjectCode": null,
+      "institution": "Academic Institution",
+      "department": null,
+      "modules": [
+        {
+          "moduleNumber": "1",
+          "moduleName": "Core Concepts",
+          "courseOutcome": 1,
+          "hours": 6,
+          "marksWeightagePercent": 100,
+          "syllabusPercent": 100,
+          "marksRange": {
+            "minimum": 10,
+            "maximum": 20
+          },
+          "topicGroups": [
+            {
+              "groupName": "Core Concepts",
+              "topics": [
+                {
+                  "topicId": "TOPIC-M1-1",
+                  "topicName": "Fundamental Principles",
+                  "subtopics": [],
+                  "sourceText": "Fundamental Principles",
+                  "confidence": 0.8
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "confirmedBy": "shahzanshaikh786@gmail.com",
+      "confirmedAt": "2026-10-01T08:04:31.302Z"
+    }
+  },
+  "otps": [],
+  "auditLogs": [
+    {
+      "id": "LOG-MUP91US3-06C42E",
+      "userId": "USR-SET-MUP8ZCKU-6B8B32",
+      "userEmail": "shahzanshaikh786@gmail.com",
+      "action": "PAPER_GENERATION_STARTED",
+      "meta": {
+        "paperId": "ES-PAP-MUP91URY-C4005D"
+      },
+      "createdAt": "2026-10-01T08:05:37.683Z"
+    },
+    {
+      "id": "LOG-MUP90ZRK-41ED97",
+      "userId": "USR-SET-MUP8ZCKU-6B8B32",
+      "userEmail": "shahzanshaikh786@gmail.com",
+      "action": "PAPER_OPENED",
+      "meta": {
+        "paperId": "ES-PAP-MUP901JK-5F9685"
+      },
+      "createdAt": "2026-10-01T08:04:57.488Z"
+    },
+    {
+      "id": "LOG-MUP90JQI-C69502",
+      "userId": "USR-SET-MUP8ZCKU-6B8B32",
+      "userEmail": "shahzanshaikh786@gmail.com",
+      "action": "PAPER_GENERATED",
+      "meta": {
+        "paperId": "ES-PAP-MUP901JK-5F9685",
+        "complianceScore": 60
+      },
+      "createdAt": "2026-10-01T08:04:36.714Z"
+    },
+    {
+      "id": "LOG-MUP90FKB-728B83",
+      "userId": "USR-SET-MUP8ZCKU-6B8B32",
+      "userEmail": "shahzanshaikh786@gmail.com",
+      "action": "BLUEPRINT_CONFIRMED",
+      "meta": {
+        "paperId": "ES-PAP-MUP901JK-5F9685",
+        "subject": "e11dd650 d685 4c79 a7fe 4ea8720ac06c (1)"
+      },
+      "createdAt": "2026-10-01T08:04:31.307Z"
+    },
+    {
+      "id": "LOG-MUP908SO-52C61E",
+      "userId": "USR-SET-MUP8ZCKU-6B8B32",
+      "userEmail": "shahzanshaikh786@gmail.com",
+      "action": "BLUEPRINT_ANALYSED",
+      "meta": {
+        "paperId": "ES-PAP-MUP901JK-5F9685",
+        "subject": "e11dd650 d685 4c79 a7fe 4ea8720ac06c (1)"
+      },
+      "createdAt": "2026-10-01T08:04:22.536Z"
+    },
+    {
+      "id": "LOG-MUP901JQ-5CC1DC",
+      "userId": "USR-SET-MUP8ZCKU-6B8B32",
+      "userEmail": "shahzanshaikh786@gmail.com",
+      "action": "PAPER_GENERATION_STARTED",
+      "meta": {
+        "paperId": "ES-PAP-MUP901JK-5F9685"
+      },
+      "createdAt": "2026-10-01T08:04:13.142Z"
+    },
+    {
+      "id": "LOG-MUP8ZV61-691431",
+      "userId": "USR-SET-MUP8ZCKU-6B8B32",
+      "userEmail": "shahzanshaikh786@gmail.com",
+      "action": "LOGIN_SUCCESS",
+      "meta": {
+        "role": "PAPER_SETTER"
+      },
+      "createdAt": "2026-10-01T08:04:04.873Z"
+    },
+    {
+      "id": "LOG-MUP8ZCMT-200EE9",
+      "userId": "USR-SET-MUP8ZCKU-6B8B32",
+      "userEmail": "shahzanshaikh786@gmail.com",
+      "action": "PAPER_SETTER_REGISTERED",
+      "meta": {
+        "email": "shahzanshaikh786@gmail.com"
+      },
+      "createdAt": "2026-10-01T08:03:40.853Z"
+    },
+    {
+      "id": "LOG-MUP8YDD1-4B24C4",
+      "userId": "USR-AUTHORIZER-1",
+      "userEmail": "faisaldiddi@gmail.com",
+      "action": "LOGOUT",
+      "meta": {},
+      "createdAt": "2026-10-01T08:02:55.142Z"
+    },
+    {
+      "id": "LOG-MUP8XHUW-7FBE50",
+      "userId": "USR-AUTHORIZER-1",
+      "userEmail": "faisaldiddi@gmail.com",
+      "action": "LOGIN_SUCCESS",
+      "meta": {
+        "role": "AUTHORIZER"
+      },
+      "createdAt": "2026-10-01T08:02:14.312Z"
+    },
+    {
+      "id": "LOG-MUP8VSXA-866395",
+      "userId": "USR-SET-MUP8VSVC-FA9B3B",
+      "userEmail": "faisaldiddi@gmail.com",
+      "action": "PAPER_SETTER_REGISTERED",
+      "meta": {
+        "email": "faisaldiddi@gmail.com"
+      },
+      "createdAt": "2026-10-01T08:00:55.343Z"
+    },
+    {
+      "id": "LOG-MUP8V5YM-805F4E",
+      "userId": "USR-AUTHORIZER-1",
+      "userEmail": "faisaldiddi@gmail.com",
+      "action": "LOGOUT",
+      "meta": {},
+      "createdAt": "2026-10-01T08:00:25.582Z"
+    },
+    {
+      "id": "LOG-MUP8UZFJ-38C73A",
+      "userId": "USR-AUTHORIZER-1",
+      "userEmail": "faisaldiddi@gmail.com",
+      "action": "PAPER_SETTER_WHITELISTED",
+      "meta": {
+        "email": "shahzanshaikh786@gmail.com"
+      },
+      "createdAt": "2026-10-01T08:00:17.119Z"
+    },
+    {
+      "id": "LOG-MUP8UBR4-E83D28",
+      "userId": "USR-AUTHORIZER-1",
+      "userEmail": "faisaldiddi@gmail.com",
+      "action": "PAPER_SETTER_WHITELISTED",
+      "meta": {
+        "email": "faisaldiddi@gmail.com"
+      },
+      "createdAt": "2026-10-01T07:59:46.432Z"
+    },
+    {
+      "id": "LOG-MUP8TZL8-34CD23",
+      "userId": "USR-AUTHORIZER-1",
+      "userEmail": "faisaldiddi@gmail.com",
+      "action": "LOGIN_SUCCESS",
+      "meta": {
+        "role": "AUTHORIZER"
+      },
+      "createdAt": "2026-10-01T07:59:30.669Z"
+    },
+    {
+      "id": "LOG-INIT-001",
+      "userId": "USR-AUTHORIZER-1",
+      "userEmail": "faisaldiddi@gmail.com",
+      "action": "SYSTEM_INITIALIZED",
+      "meta": {
+        "status": "Authorizer configured; Paper Setter whitelist empty (default deny active)"
+      },
+      "createdAt": "2026-10-01T00:00:00.000Z"
+    }
+  ],
+  "securityEvents": [
+    {
+      "id": "SEC-MUP8ZO4R-1663FD",
+      "userId": "USR-SET-MUP8ZCKU-6B8B32",
+      "type": "WRONG_OTP",
+      "severity": "MEDIUM",
+      "meta": {},
+      "createdAt": "2026-10-01T08:03:55.755Z"
+    },
+    {
+      "id": "SEC-MUP8WMKS-897153",
+      "userId": "USR-AUTHORIZER-1",
+      "type": "FAILED_LOGIN",
+      "severity": "MEDIUM",
+      "meta": {
+        "email": "faisaldiddi@gmail.com"
+      },
+      "createdAt": "2026-10-01T08:01:33.772Z"
+    },
+    {
+      "id": "SEC-MUP8VVE1-2760F1",
+      "userId": "USR-AUTHORIZER-1",
+      "type": "FAILED_LOGIN",
+      "severity": "MEDIUM",
+      "meta": {
+        "email": "faisaldiddi@gmail.com"
+      },
+      "createdAt": "2026-10-01T08:00:58.537Z"
+    },
+    {
+      "id": "SEC-MUP8S807-6A7BD8",
+      "userId": "USR-AUTHORIZER-1",
+      "type": "FAILED_LOGIN",
+      "severity": "MEDIUM",
+      "meta": {
+        "email": "faisaldiddi@gmail.com"
+      },
+      "createdAt": "2026-10-01T07:58:08.264Z"
+    }
+  ]
+}

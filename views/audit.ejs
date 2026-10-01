@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Forensic Audit Trail — EXAM SENTRY</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <%- include('nav', { user }) %>
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="badge badge-ok">IMMUTABLE LOG</span>
+          <span class="muted" style="font-size:12px; font-family:monospace;">APPEND-ONLY AUDIT STREAM</span>
+        </div>
+        <h1 style="margin-top:6px;">Forensic Audit Trail</h1>
+        <div class="muted">Cryptographic event trail of authentication, paper creation, and authorization updates.</div>
+      </div>
+      <div class="card" style="padding:10px 16px;">
+        <span class="muted" style="font-size:12px;">TOTAL EVENTS</span>
+        <div style="font-size:22px; font-weight:800; color:var(--primary); font-family:monospace;"><%= logs.length %></div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Account</th>
+            <th>Event Action</th>
+            <th>Event Metadata</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (logs.length === 0) { %>
+            <tr>
+              <td colspan="4" style="text-align:center; padding: 40px; color:var(--ink-muted);">
+                No audit events logged yet.
+              </td>
+            </tr>
+          <% } %>
+          <% logs.forEach(l => { const u = users.find(x => x.id === l.userId); %>
+            <tr>
+              <td class="muted" style="font-family:monospace; font-size:12.5px;"><%= new Date(l.createdAt).toLocaleString() %></td>
+              <td>
+                <b><%= u?.name || l.userId %></b>
+                <br><small class="muted"><%= l.userEmail || u?.email || l.userId %></small>
+              </td>
+              <td>
+                <span class="badge badge-outline" style="font-family:monospace; color:#fff; border-color:rgba(0,240,255,0.3);">
+                  <%= l.action %>
+                </span>
+              </td>
+              <td class="muted" style="font-family:monospace; font-size:12px; max-width:400px; word-break:break-all;">
+                <%= JSON.stringify(l.meta) %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    EXAM SENTRY &bull; "SECURE. MONITOR. TRACE." &bull; Forensic Audit Facility
+  </div>
+</body>
+</html>

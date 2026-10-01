@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title><%= paper.subject || paper.title %> — Secure Viewer — EXAM SENTRY</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body data-paper="<%= paper.id %>">
+  <%- include('nav', { user }) %>
+  <div class="container">
+    <div class="section-title">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="badge badge-ok">CONFIDENTIAL ACTIVE SESSION</span>
+          <span class="muted" style="font-family:monospace; font-size:12px;">TOKEN: <%= token %></span>
+        </div>
+        <h1 style="margin-top:6px;"><%= paper.subject || paper.title %></h1>
+        <div class="muted"><%= paper.subjectCode || 'CODE: N/A' %> &bull; <%= paper.semester || 'Semester VII' %> &bull; Status: <%= paper.status %></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:16px;">
+        <div class="monitor" style="border:1px solid rgba(16,185,129,0.3); background:rgba(16,185,129,0.1); color:#6ee7b7; padding:8px 14px; border-radius:8px; display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700;">
+          <span class="brand-dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></span>
+          <span id="monitorState">Initializing Camera Monitor...</span>
+        </div>
+        <div style="width:140px; height:90px; border-radius:8px; overflow:hidden; background:#000; border:1px solid var(--border);">
+          <video id="monitorVideo" autoplay muted playsinline style="width:100%; height:100%; object-fit:cover;"></video>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHITE A4 SHEET VIEWER (NEVER BLACK-ON-BLACK) -->
+    <div class="paper-sheet-container">
+      <div class="a4-sheet">
+        <div class="watermark-overlay">
+          <% for (let i = 0; i < 9; i++) { %>
+            <div>
+              <%= user.email %><br>
+              <span style="font-size:11px;"><%= token %> &bull; EXAM SENTRY</span>
+            </div>
+          <% } %>
+        </div>
+
+        <div class="a4-header">
+          <h2><%= paper.institution || 'M. H. SABOO SIDDIK COLLEGE OF ENGINEERING' %></h2>
+          <h3>Department of <%= paper.department || 'Mechanical Engineering' %></h3>
+          <div style="font-weight:bold; font-size:17px; margin: 8px 0; color:#000;">
+            <%= paper.subject || paper.title %> (<%= paper.subjectCode || 'ILO7017' %>)
+          </div>
+          <div class="a4-meta">
+            <span>Duration: <%= paper.duration || '2 Hours' %></span>
+            <span>Semester: <%= paper.semester || 'VII' %></span>
+            <span>Max Marks: <%= paper.marks || 20 %></span>
+          </div>
+        </div>
+
+        <div class="a4-instructions">
+          <b>Instructions:</b><br>
+          1. All questions are compulsory subject to internal options.<br>
+          2. Figures to the right indicate full marks.<br>
+          3. This document is dynamically watermarked. Unauthorized reproduction or leakage is subject to forensic tracing.
+        </div>
+
+        <% if (paper.sections && paper.sections.length > 0) { %>
+          <% paper.sections.forEach((sec, sIdx) => { %>
+            <div class="a4-section-title">
+              <span><%= sec.title %></span>
+              <span>[<%= sec.attemptableMarks || sec.marks || '' %> Marks]</span>
+            </div>
+            <% if (sec.instruction) { %>
+              <div style="font-size:13px; font-style:italic; margin-bottom:12px; font-family:Arial, sans-serif;">
+                <%= sec.instruction %>
+              </div>
+            <% } %>
+
+            <% (sec.questions || []).forEach((q, qIdx) => { %>
+              <div class="a4-question">
+                <div class="a4-q-num"><%= q.questionLabel || String.fromCharCode(97 + qIdx) %>)</div>
+                <div class="a4-q-text">
+                  <%= q.questionText %>
+                  <% if (q.courseOutcome || q.bloomLevel || q.moduleName) { %>
+                    <div style="font-size:11px; color:#475569; font-family:Arial, sans-serif; margin-top:3px;">
+                      [<%= q.courseOutcome || '' %> <%= q.bloomLevel ? '&bull; ' + q.bloomLevel : '' %> <%= q.moduleName ? '&bull; Mod: ' + q.moduleName : '' %>]
+                    </div>
+                  <% } %>
+                </div>
+                <div class="a4-q-meta">[<%= q.marks %>M]</div>
+              </div>
+            <% }) %>
+          <% }) %>
+        <% } else if (paper.content) { %>
+          <div style="font-family:'Times New Roman', serif; font-size:15px; line-height:1.8; white-space:pre-wrap;">
+            <%= paper.content %>
+          </div>
+        <% } else { %>
+          <div style="padding: 40px; text-align: center; color: #64748b;">
+            Examination content is being processed.
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOCK OVERLAY -->
+  <div id="lockOverlay" class="modal-overlay">
+    <div class="modal-content" style="text-align:center; padding: 40px;">
+      <div style="font-size: 54px; margin-bottom:12px;">🔒</div>
+      <h2 style="color:#fff; margin:0 0 10px;">SESSION SUSPENDED</h2>
+      <p style="color:var(--ink-muted); line-height:1.6; font-size:14px; margin-bottom:24px;">
+        Webcam tamper or window blur was detected during a confidential viewing session. For security compliance, please re-authenticate.
+      </p>
+      <a class="btn" href="/login">Re-authenticate to Resume</a>
+    </div>
+  </div>
+
+  <script src="/viewer.js"></script>
+</body>
+</html>
